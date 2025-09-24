@@ -15,6 +15,27 @@ export default {
     
     methods: {
         // Add code here
+        changeTheme(){
+            // Dark theme: background-color: #333, text-color: #fff
+            // Light theme: background-color: #fff, text-color: #000
+            // Neon theme: background-color: #39ff14, text-color: #000
+            this.currentThemeIndex += 1;
+            if(this.currentThemeIndex > 2){
+                this.currentThemeIndex = 0;
+            }
+            if(this.currentThemeIndex === 0){
+                this.bgColor = "#333";
+                this.textColor = "#fff";
+            }
+            if(this.currentThemeIndex === 1){
+                this.bgColor = "#fff";
+                this.textColor = "#000";
+            }
+            if(this.currentThemeIndex === 2){
+                this.bgColor = "#39ff14";
+                this.textColor = "#000";
+            }
+        }
 
     }
 }
@@ -39,7 +60,10 @@ export default {
             <input id="imageUrl" v-model="imageUrl" placeholder="https://example.com/me.jpg"><br><br>
 
             <label>Theme Presets:</label><br>
-            <button class="theme-button">Cycle theme</button> <!-- click button to cycle through the themes -->
+            <button class="theme-button" 
+            :class="{'dark': currentThemeIndex==0, 'light': currentThemeIndex==1, 'neon': currentThemeIndex==2}"
+            @click="changeTheme()">Cycle theme</button> 
+            <!-- click button to cycle through the themes -->
             <!-- Dark theme: background-color: #333, text-color: #fff -->
             <!-- Light theme: background-color: #fff, text-color: #000  -->
             <!-- Neon theme: background-color: #39ff14, text-color: #000 -->
@@ -48,7 +72,8 @@ export default {
         <!-- Preview Section -->
         <div class="preview-section">
             <h2>Live Preview</h2>
-            <div class="preview-card"> <!-- Add code here to set background color and text color -->
+            <div class="preview-card" :style="{ backgroundColor: bgColor, color: textColor }"> 
+                <!-- Add code here to set background color and text color -->
                 <img :src="imageUrl" class="preview-img">
                 <h3>{{ name || 'Your Name' }}</h3>
                 <h4>{{ job || 'Job Title' }}</h4>
